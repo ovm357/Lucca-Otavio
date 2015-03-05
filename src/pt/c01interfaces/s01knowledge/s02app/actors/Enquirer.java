@@ -13,31 +13,46 @@ public class Enquirer implements IEnquirer
 	
 	public Enquirer()
 	{
-        IBaseConhecimento bc = new BaseConhecimento();
-		
-		obj = bc.recuperaObjeto("tiranossauro");
 	}
 	
 	
 	@Override
 	public void connect(IResponder responder)
 	{
-		IDeclaracao decl = obj.primeira();
+        IBaseConhecimento bc = new BaseConhecimento();
+		String listaAnimais[] = bc.listaNomes();
+		int animal;
 		
-		while (decl != null && responder.ask(decl.getPropriedade()).equalsIgnoreCase(decl.getValor()))
-			decl = obj.proxima();
+		for (animal = 0; animal < listaAnimais.length; animal++) {
+			obj = bc.recuperaObjeto(listaAnimais[animal]);
+			IDeclaracao decl = obj.primeira();
+			
+			System.out.println("!!!");
+	        boolean animalEsperado = true;
+			while (decl != null && animalEsperado) {
+				String pergunta = decl.getPropriedade();
+				String respostaEsperada = decl.getValor();
+				
+				String resposta = responder.ask(pergunta);
+				if (resposta.equalsIgnoreCase(respostaEsperada))
+					decl = obj.proxima();
+				else
+					animalEsperado = false;
+			}
+			if (animalEsperado != false)
+				break;
+		}
 		
-		boolean acertei = false;
+		System.out.println("cabo");
+		boolean acertei = responder.finalAnswer(listaAnimais[animal]);
 		
-		if (decl == null)
-			acertei = responder.finalAnswer("tiranossauro");
-		else
-			acertei = responder.finalAnswer("nao conheco");
-		
+		System.out.println("hu3");
 		if (acertei)
 			System.out.println("Oba! Acertei!");
-		else
+		/*else{
 			System.out.println("fuem! fuem! fuem!");
+			break;
+		}*/
 
 	}
 
