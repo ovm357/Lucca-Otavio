@@ -30,21 +30,20 @@ public class Enquirer implements IEnquirer
 			obj = bc.recuperaObjeto(listaAnimais[animal]);
 			IDeclaracao decl = obj.primeira();
 			
-			System.out.println("!!!");
 	        boolean animalEsperado = true;
 			while (decl != null && animalEsperado) {
 				
 				String pergunta = decl.getPropriedade();
 				
 				/* Este FOR compara a questao atual com as guardadas no estoque. Se for igual, a flag "repetido" vira true e o loop acaba. Se nao for, adiciona-a na lista */
-				for(contFor = 0; contFor <= 30; contFor++) {
-					if (storage[contFor].equalsIgnoreCase(pergunta)) {
-						repetido = true;
-						break;
-					}
-									
+				for(contFor = 0; contFor < 30; contFor = contFor+1) {
+					if(storage[contFor]!= null) {
+						if (storage[contFor].equalsIgnoreCase(pergunta)) {
+							repetido = true;
+							break;
+						}
+					}			
 				}
-				
 				/* Se a pergunta nao for repetida, ela pode ser feita */
 				if (!repetido) {
 					storage[contPer] = pergunta;	
@@ -53,11 +52,14 @@ public class Enquirer implements IEnquirer
 					String respostaEsperada = decl.getValor();
 					
 					String resposta = responder.ask(pergunta);
-					if (resposta.equalsIgnoreCase(respostaEsperada))
-						decl = obj.proxima();
-					else
-						animalEsperado = false;
+					
+					if (!(resposta.equalsIgnoreCase(respostaEsperada)))
+						animalEsperado = false;		
 				}
+				decl = obj.proxima();
+				
+				//marcar pergunta repetida
+				
 				/* Reinicia "repetido" */
 				repetido = false;
 			}
@@ -66,10 +68,8 @@ public class Enquirer implements IEnquirer
 				break;
 		}
 		
-		System.out.println("cabo");
 		boolean acertei = responder.finalAnswer(listaAnimais[animal]);
 		
-		System.out.println("hu3");
 		if (acertei)
 			System.out.println("Oba! Acertei!");
 		else
