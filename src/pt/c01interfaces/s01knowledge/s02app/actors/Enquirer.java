@@ -21,9 +21,9 @@ public class Enquirer implements IEnquirer
 	{
         IBaseConhecimento bc = new BaseConhecimento();
 		String listaAnimais[] = bc.listaNomes();
-		String storage[30];
+		String storage[]= new String[30];
 		int animal, contPer = 0, contFor;
-		boolean repetido;
+		boolean repetido = false;
 		
 		/* Este FOR garante que todos os animais sejam testados pelo Enquirer */
 		for (animal = 0; animal < listaAnimais.length; animal++) {
@@ -42,13 +42,14 @@ public class Enquirer implements IEnquirer
 						repetido = true;
 						break;
 					}
-					else storage[contPer] = pergunta;						
+									
 				}
-				/* Conta as perguntas que ja passaram */
-				contPer++;
 				
 				/* Se a pergunta nao for repetida, ela pode ser feita */
 				if (!repetido) {
+					storage[contPer] = pergunta;	
+					// Conta as perguntas que ja passaram
+					contPer++;
 					String respostaEsperada = decl.getValor();
 					
 					String resposta = responder.ask(pergunta);
@@ -71,10 +72,8 @@ public class Enquirer implements IEnquirer
 		System.out.println("hu3");
 		if (acertei)
 			System.out.println("Oba! Acertei!");
-		else{
+		else
 			System.out.println("fuem! fuem! fuem!");
-			break;
-		}
 
 	}
 
