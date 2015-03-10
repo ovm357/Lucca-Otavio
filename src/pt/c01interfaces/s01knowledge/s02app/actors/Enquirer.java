@@ -6,6 +6,7 @@ import pt.c01interfaces.s01knowledge.s01base.inter.IDeclaracao;
 import pt.c01interfaces.s01knowledge.s01base.inter.IEnquirer;
 import pt.c01interfaces.s01knowledge.s01base.inter.IObjetoConhecimento;
 import pt.c01interfaces.s01knowledge.s01base.inter.IResponder;
+import java.util.ArrayList;
 
 public class Enquirer implements IEnquirer
 {
@@ -21,8 +22,9 @@ public class Enquirer implements IEnquirer
 	{
         IBaseConhecimento bc = new BaseConhecimento();
 		String listaAnimais[] = bc.listaNomes();
-		String storage[]= new String[30];
-		int animal, contPer = 0, contFor;
+		ArrayList<String> Perguntas = new ArrayList<String> ();	// Um arrayList para guardar as perguntas
+		ArrayList<String> Respostas = new ArrayList<String> ();	// Um arrayList para guardar as respostas
+		int animal, contFor;
 		boolean repetido = false;
 		
 		/* Este FOR garante que todos os animais sejam testados pelo Enquirer */
@@ -36,32 +38,36 @@ public class Enquirer implements IEnquirer
 				String pergunta = decl.getPropriedade();
 				
 				/* Este FOR compara a questao atual com as guardadas no estoque. Se for igual, a flag "repetido" vira true e o loop acaba. Se nao for, adiciona-a na lista */
-				for(contFor = 0; contFor < 30; contFor = contFor+1) {
-					if(storage[contFor]!= null) {
-						if (storage[contFor].equalsIgnoreCase(pergunta)) {
+				for(contFor = 0; Perguntas.size() > contFor; contFor = contFor+1) { // O for roda enquanto houverem questoes na lista
+						if (Perguntas.get(contFor).equalsIgnoreCase(pergunta)) {
 							repetido = true;
 							break;
 						}
-					}			
 				}
-				/* Se a pergunta nao for repetida, ela pode ser feita */
+				/* Se a pergunta nao for repetida, ela pode ser feita normalmente */
 				if (!repetido) {
-					storage[contPer] = pergunta;	
-					// Conta as perguntas que ja passaram
-					contPer++;
 					String respostaEsperada = decl.getValor();
 					
 					String resposta = responder.ask(pergunta);
 					
 					if (!(resposta.equalsIgnoreCase(respostaEsperada)))
-						animalEsperado = false;		
+						animalEsperado = false;	
+
+					/* Adiciona a nova pergunta e resposta as respectivas arrays */
+					Perguntas.add(pergunta);
+					Respostas.add(resposta);
 				}
-				decl = obj.proxima();
 				
-				//marcar pergunta repetida
+				/* Se a pergunta for repetida, compara o valor esperado para esse animal com o que estava guardado na lista */
+				else {
+					String respostaEsperada = decl.getValor();					
+					if (!(Respostas.get(contFor).equalsIgnoreCase(respostaEsperada)))
+						animalEsperado = false;	// Se as respostas nao baterem, nao eh o animal correto
+				}
+			
+				decl = obj.proxima(); // Pega a proxima pergunta
 				
-				/* Reinicia "repetido" */
-				repetido = false;
+				repetido = false; // Reinicia "repetido"
 			}
 			/* Se sair do WHILE sem respostas negativas, o animal correto foi encontrado! O loop eh entao quebrado */
 			if (animalEsperado != false)
@@ -74,6 +80,10 @@ public class Enquirer implements IEnquirer
 			System.out.println("Oba! Acertei!");
 		else
 			System.out.println("fuem! fuem! fuem!");
+		
+		/* Libera as listas */
+		Perguntas.clear();
+		Respostas.clear();
 
 	}
 
