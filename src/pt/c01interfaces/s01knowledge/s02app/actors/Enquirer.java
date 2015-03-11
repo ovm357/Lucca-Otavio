@@ -29,6 +29,7 @@ public class Enquirer implements IEnquirer
 		
 		/* Este FOR garante que todos os animais sejam testados pelo Enquirer */
 		for (animal = 0; animal < listaAnimais.length; animal++) {
+			System.out.println(listaAnimais.length);
 			obj = bc.recuperaObjeto(listaAnimais[animal]);
 			IDeclaracao decl = obj.primeira();
 			
