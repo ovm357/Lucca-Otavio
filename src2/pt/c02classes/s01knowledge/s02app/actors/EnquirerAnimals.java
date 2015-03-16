@@ -12,7 +12,6 @@ import pt.c02classes.s01knowledge.s01base.inter.IResponder;
 public class EnquirerAnimals implements IEnquirer {
 
 	IResponder responder;
-	IObjetoConhecimento obj;
 	
 	public void connect(IResponder responder) {
 		this.responder = responder;
@@ -20,13 +19,16 @@ public class EnquirerAnimals implements IEnquirer {
 	
 	public boolean discover() {
 		IBaseConhecimento bc = new BaseConhecimento();
+		IObjetoConhecimento obj;
+		
+		bc.setScenario("animals");
+
 		String listaAnimais[] = bc.listaNomes();
 		ArrayList<String> Perguntas = new ArrayList<String> ();	// Um arrayList para guardar as perguntas
 		ArrayList<String> Respostas = new ArrayList<String> ();	// Um arrayList para guardar as respostas
 		int animal, contFor;
 		boolean repetido = false;
 		
-		bc.setScenario("animals");
 		
 		/* Este FOR garante que todos os animais sejam testados pelo Enquirer */
 		for (animal = 0; animal < listaAnimais.length; animal++) {

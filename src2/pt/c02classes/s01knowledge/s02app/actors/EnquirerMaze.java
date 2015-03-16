@@ -28,34 +28,44 @@ public class EnquirerMaze implements IEnquirer {
 	    	direcao = "sul";
 	    
 		while(!saida) {
+			/* Switch indica qual a direcao para qual estamos nos locomovendo
+			 * Uma vez que o programa se baseia em seguir a parede da esquerda da entrada,
+			 *   precisamos definir a direcao de deslocamento, pois se estamos indo para o norte,
+			 *   nossa esquerda esta a oeste, se vamos para o leste nossa esquerda esta a norte , ...
+			 */
 		      switch(direcao) {
 			      
 			      /* NORTE */
 			      case("norte"):
+			    	  //se temos parede a esquerda
 			    	  if (responder.ask("oeste")==("parede")) {
+			    		  //se podemos seguir em frente
 			    		  if (!(responder.ask("norte")==("parede"))) {
+			    			  //siga em frente
 			    			  responder.move("norte");
 			    			  direcao = "norte";
-			    			  System.out.println(direcao);
 			    			  break;
 			    		  }
+			    		  //se nao, se podemos ir para a direita
 			    		  else if (!(responder.ask("leste")==("parede"))) {
+			    			  //va para direita
 			    			  responder.move("leste");
 				    		  direcao = "leste";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
+			    		  //se estamos encurralados
 				    	  else {
+				    		  //volte
 			    			  responder.move("sul");
 				    		  direcao = "sul";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 			      }
+			      //se nao ha parede a nossa esquerda
 			      else {
+			    	  //vamos para a esquerda
 			    	  responder.move("oeste");
 			    	  direcao = "oeste";
-			    	  System.out.println(direcao);
 			    	  break;
 			      }
 			      
@@ -65,26 +75,22 @@ public class EnquirerMaze implements IEnquirer {
 			    		  if (!(responder.ask("leste")==("parede"))) {
 			    			  responder.move("leste");
 			    			  direcao = "leste";
-			    			  System.out.println(direcao);
 			    			  break;
 			    		  }
 			    		  else if (!(responder.ask("sul")==("parede"))) {
 			    			  responder.move("sul");
 				    		  direcao = "sul";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 				    	  else {
 			    			  responder.move("oeste");
 				    		  direcao = "oeste";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 			      }
 			      else {
 			    	  responder.move("norte");
 			    	  direcao = "norte";
-			    	  System.out.println(direcao);
 			    	  break;
 			      }
 			      
@@ -94,26 +100,22 @@ public class EnquirerMaze implements IEnquirer {
 			    		  if (!(responder.ask("oeste")==("parede"))) {
 			    			  responder.move("oeste");
 			    			  direcao = "oeste";
-			    			  System.out.println(direcao);
 			    			  break;
 			    		  }
 			    		  else if (!(responder.ask("norte")==("parede"))) {
 			    			  responder.move("norte");
 				    		  direcao = "norte";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 				    	  else {
 			    			  responder.move("leste");
 				    		  direcao = "leste";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 			      }
 			      else {
 			    	  responder.move("sul");
 			    	  direcao = "sul";
-			    	  System.out.println(direcao);
 			    	  break;
 			      }
 			      
@@ -123,26 +125,22 @@ public class EnquirerMaze implements IEnquirer {
 			    		  if (!(responder.ask("sul")==("parede"))) {
 			    			  responder.move("sul");
 			    			  direcao = "sul";
-			    			  System.out.println(direcao);
 			    			  break;
 			    		  }
 			    		  else if (!(responder.ask("oeste")==("parede"))) {
 			    			  responder.move("oeste");
 				    		  direcao = "oeste";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 				    	  else {
 			    			  responder.move("norte");
 				    		  direcao = "norte";
-				    		  System.out.println(direcao);
 				    		  break;
 			    		  }
 			      }
 			      else {
 			    	  responder.move("leste");
 			    	  direcao = "leste";
-			    	  System.out.println(direcao);
 			    	  break;
 			      }
 		      }
@@ -152,7 +150,8 @@ public class EnquirerMaze implements IEnquirer {
 		    	  saida = true;
 		      
 		}
-		System.out.println(responder.ask("aqui"));
+		System.out.println("Oba! Encontrei a saida !!");
+		
 		return true;
 	}
 	
